@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="12dp"
+    app:cardBackgroundColor="#5f1dab"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:src="@drawable/ic_unlock"
+            android:layout_margin="24dp"/>
+
+        <TextView
+            android:id="@+id/hc3_big_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Big display card with action"
+            android:textColor="@android:color/white"
+            android:textSize="42sp"
+            android:paddingStart="20dp"
+            android:paddingEnd="28dp"
+            android:fontFamily="sans-serif-light"/>
+
+        <TextView
+            android:id="@+id/hc3_small_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Big display card with action"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:paddingStart="20dp"
+            android:paddingEnd="28dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="sans-serif-light"/>
+
+        <Button
+            android:id="@+id/hc3_action_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="24dp"
+            android:text="Action"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
+            android:backgroundTint="#FF000000"/>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
