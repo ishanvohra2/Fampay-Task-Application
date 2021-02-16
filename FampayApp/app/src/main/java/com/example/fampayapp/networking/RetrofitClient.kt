@@ -1,35 +1,38 @@
 package com.example.fampayapp.networking
 
+
+import de.hdodenhof.circleimageview.BuildConfig
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
-class RetrofitClient{
+object RetrofitClient {
 
-    lateinit var retrofitClient: Retrofit
-    val baseUrl: String =""
+    const val MainServer = "http://api.drfriday.in/api/user/"
 
-    fun RetrofitClient(){
-        if(retrofitClient != null){
-            retrofitClient = Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .client(provideOkHttpClient())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        }
+    val retrofitClient: Retrofit.Builder by lazy {
+
+        val levelType: Level
+        if (BuildConfig.BUILD_TYPE.contentEquals("debug"))
+            levelType = Level.BODY else levelType = Level.NONE
+
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(levelType)
+
+        val okhttpClient = OkHttpClient.Builder()
+        okhttpClient.addInterceptor(logging)
+
+        Retrofit.Builder()
+            .baseUrl(MainServer)
+            .client(okhttpClient.build())
+            .addConverterFactory(GsonConverterFactory.create())
     }
 
-    fun provideOkHttpClient() : OkHttpClient{
-        val okHttpClientBuilder : OkHttpClient.Builder = OkHttpClient.Builder()
-        okHttpClientBuilder.connectTimeout(100, TimeUnit.SECONDS)
-        okHttpClientBuilder.readTimeout(100, TimeUnit.SECONDS)
-        okHttpClientBuilder.writeTimeout(100, TimeUnit.SECONDS)
-        return okHttpClientBuilder.build()
+    val apiInterface: APIInterface by lazy {
+        retrofitClient
+            .build()
+            .create(APIInterface::class.java)
     }
-
-    fun <S> createService(serviceClass: Class<S>?): S {
-        return retrofitClient.create(serviceClass)
-    }
-
 }
