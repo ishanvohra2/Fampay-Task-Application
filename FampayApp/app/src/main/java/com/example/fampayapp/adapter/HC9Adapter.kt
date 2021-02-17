@@ -1,6 +1,8 @@
 package com.example.fampayapp.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +37,13 @@ class HC9Adapter : RecyclerView.Adapter<HC9Adapter.MyViewHolder>() {
         Glide.with(context)
             .load(card.bg_image.image_url)
             .into(holder.imageView)
+
+        if(card.url != null){
+            holder.itemView.setOnClickListener {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(card.url))
+                context.startActivity(browserIntent)
+            }
+        }
     }
 
 

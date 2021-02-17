@@ -1,6 +1,9 @@
 package com.example.fampayapp.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,6 +53,13 @@ class HC3Adapter (): RecyclerView.Adapter<HC3Adapter.MyViewHolder>() {
         for(btn in card.cta){
             holder.linearLayout.addView(getCtaButton(btn))
         }
+
+        if(card.url != null){
+            holder.itemView.setOnClickListener {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(card.url))
+                context.startActivity(browserIntent)
+            }
+        }
     }
 
     fun getCtaButton(cta: Cta) : Button{
@@ -67,7 +77,10 @@ class HC3Adapter (): RecyclerView.Adapter<HC3Adapter.MyViewHolder>() {
 
         button.text = cta.text
         button.setOnClickListener {
-
+            if(cta.url != null){
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(cta.url))
+                context.startActivity(browserIntent)
+            }
         }
 
         return button

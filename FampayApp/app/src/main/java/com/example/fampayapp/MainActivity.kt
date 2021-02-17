@@ -1,17 +1,23 @@
 package com.example.fampayapp
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.fampayapp.adapter.*
 import com.example.fampayapp.model.Card
 import com.example.fampayapp.model.CardGroup
 import com.example.fampayapp.viewmodel.HomeViewModel
+import com.facebook.shimmer.ShimmerFrameLayout
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var viewModel: HomeViewModel
     lateinit var context: Context
     lateinit var linearLayout: LinearLayout
+    lateinit var shimmerLayout: ShimmerFrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +36,26 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         linearLayout = findViewById(R.id.container_layout)
+        shimmerLayout = findViewById(R.id.shimmer)
+        shimmerLayout.startShimmer()
 
+        val swipeRefreshLayout : SwipeRefreshLayout = findViewById(R.id.swipe_refresh_layout)
+        swipeRefreshLayout.setOnRefreshListener {
+            shimmerLayout.startShimmer()
+            shimmerLayout.visibility = View.VISIBLE
+
+            swipeRefreshLayout.isRefreshing = false
+            loadData()
+        }
+
+        loadData()
+    }
+
+    private fun loadData(){
         viewModel.getCardGroups()!!.observe(this, Observer {response ->
+            shimmerLayout.stopShimmer()
+            shimmerLayout.visibility = View.GONE
+
             if(response != null){
                 for(cardGroup in response.card_groups){
                     if(cardGroup.design_type == "HC3"){
@@ -61,6 +86,9 @@ class MainActivity : AppCompatActivity() {
                         inflateHC1(cardGroup)
                     }
                 }
+            }
+            else{
+                Toast.makeText(this, "Error, please try again", Toast.LENGTH_LONG).show()
             }
         })
     }
