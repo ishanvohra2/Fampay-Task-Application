@@ -8,9 +8,9 @@ import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitClient {
+object  RetrofitClient {
 
-    const val MainServer = "http://api.drfriday.in/api/user/"
+    const val MainServer = "https://run.mocky.io/v3/"
 
     val retrofitClient: Retrofit.Builder by lazy {
 

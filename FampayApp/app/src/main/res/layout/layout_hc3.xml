@@ -4,15 +4,17 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="12dp"
-    app:cardBackgroundColor="#5f1dab"
+    app:cardBackgroundColor="#454AA6"
     android:padding="12dp">
 
     <LinearLayout
+        android:id="@+id/hc3_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/hc3_icon"
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:src="@drawable/ic_unlock"
@@ -24,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="Big display card with action"
             android:textColor="@android:color/white"
-            android:textSize="42sp"
+            android:textSize="36sp"
             android:paddingStart="20dp"
             android:paddingEnd="28dp"
             android:fontFamily="sans-serif-light"/>
@@ -40,19 +42,6 @@
             android:paddingEnd="28dp"
             android:layout_marginTop="24dp"
             android:fontFamily="sans-serif-light"/>
-
-        <Button
-            android:id="@+id/hc3_action_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:layout_marginStart="24dp"
-            android:text="Action"
-            android:paddingStart="50dp"
-            android:paddingEnd="50dp"
-            android:backgroundTint="#FF000000"/>
-
 
     </LinearLayout>
 
