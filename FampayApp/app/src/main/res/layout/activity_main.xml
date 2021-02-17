@@ -6,9 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    app:cardBackgroundColor="#ffffff"
-    android:layout_margin="12dp"
-    app:cardCornerRadius="10dp">
+    app:cardBackgroundColor="#F7F6F3">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,7 +16,8 @@
             android:id="@+id/container_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical"
+            android:padding="12dp"/>
 
     </ScrollView>
 

@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.marginStart
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.fampayapp.R
 import com.example.fampayapp.model.Card
 import com.example.fampayapp.model.Cta
@@ -40,6 +41,11 @@ class HC3Adapter (): RecyclerView.Adapter<HC3Adapter.MyViewHolder>() {
 
         holder.bigTv.setText(card.formatted_title.text)
         holder.smallTv.setText(card.formatted_description.text)
+
+        if(card.icon != null)
+            Glide.with(context)
+                .load(card.icon.image_url)
+                .into(holder.iconIv)
 
         for(btn in card.cta){
             holder.linearLayout.addView(getCtaButton(btn))
