@@ -13,4 +13,4 @@ The network calls are made using Retrofit library.
 I have used Material Design library to create the user interface of the mentioned application. Also, I used Facebook's shimmer layout library to give the app some nice loading effects
 
 ## Download the APP
-[Click on this link to download the app](https://drive.google.com/file/d/13oxVcX1l3qY0I7dhg5pyIZJgtSu1j-10/view?usp=sharing). 
+[Click on this link to download the app](https://drive.google.com/drive/folders/1CkfTYJ-nT-xEo1s5hltwPp6B5j-KFVK9?usp=sharing). 
