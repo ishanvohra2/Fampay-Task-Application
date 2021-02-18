@@ -2,6 +2,7 @@ package com.example.fampayapp
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -20,12 +21,18 @@ import com.example.fampayapp.viewmodel.HomeViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), HC3Adapter.onOptionsSelectListener {
 
     lateinit var viewModel: HomeViewModel
     lateinit var context: Context
+
     lateinit var linearLayout: LinearLayout
     lateinit var shimmerLayout: ShimmerFrameLayout
+
+    var dismissed: Boolean = false
+    var remindLater: Boolean = false
+
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,23 +50,31 @@ class MainActivity : AppCompatActivity() {
         swipeRefreshLayout.setOnRefreshListener {
             shimmerLayout.startShimmer()
             shimmerLayout.visibility = View.VISIBLE
+            linearLayout.visibility = View.GONE
 
             swipeRefreshLayout.isRefreshing = false
             loadData()
         }
+
+        sharedPreferences = this.getSharedPreferences("SharedPref",Context.MODE_PRIVATE)
+        dismissed = sharedPreferences.getBoolean("dismissed", false)
 
         loadData()
     }
 
     private fun loadData(){
         viewModel.getCardGroups()!!.observe(this, Observer {response ->
+            linearLayout.removeAllViews()
             shimmerLayout.stopShimmer()
             shimmerLayout.visibility = View.GONE
+            linearLayout.visibility = View.VISIBLE
 
             if(response != null){
-                for(cardGroup in response.card_groups){
-                    if(cardGroup.design_type == "HC3"){
-                        inflateHC3(cardGroup)
+                if(!remindLater && !dismissed){
+                    for(cardGroup in response.card_groups){
+                        if(cardGroup.design_type == "HC3"){
+                            inflateHC3(cardGroup)
+                        }
                     }
                 }
 
@@ -135,6 +150,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun inflateHC3(cardGroup: CardGroup) {
         val recyclerView = RecyclerView(this)
+        recyclerView.id = R.id.hc3
         val params = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -147,6 +163,7 @@ class MainActivity : AppCompatActivity() {
         val hC3Adapter = HC3Adapter()
         hC3Adapter.context = this
         hC3Adapter.cards = cardGroup.cards
+        hC3Adapter.listener = this
 
         recyclerView.adapter = hC3Adapter
 
@@ -191,5 +208,22 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = hC5Adapter
 
         linearLayout.addView(recyclerView)
+    }
+
+    override fun onRemindLaterSelected() {
+        remindLater = true
+        val recyclerView: RecyclerView = findViewById(R.id.hc3)
+        recyclerView.visibility = View.GONE
+    }
+
+    override fun onDismissNowSelected() {
+        val editor:SharedPreferences.Editor =  sharedPreferences.edit()
+        editor.putBoolean("dismissed", true)
+        editor.apply()
+
+        dismissed = true
+
+        val recyclerView: RecyclerView = findViewById(R.id.hc3)
+        recyclerView.visibility = View.GONE
     }
 }

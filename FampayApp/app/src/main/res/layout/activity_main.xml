@@ -36,12 +36,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/container_layout"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
+                android:layout_height="wrap_content">
 
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/shimmer"
@@ -61,7 +58,14 @@
 
                 </com.facebook.shimmer.ShimmerFrameLayout>
 
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/container_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp"/>
+
+            </FrameLayout>
 
         </ScrollView>
 

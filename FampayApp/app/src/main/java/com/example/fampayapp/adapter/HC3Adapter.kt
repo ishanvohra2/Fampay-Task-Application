@@ -2,32 +2,41 @@ package com.example.fampayapp.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.core.view.marginStart
+import android.widget.*
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Slide
+import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.example.fampayapp.R
 import com.example.fampayapp.model.Card
 import com.example.fampayapp.model.Cta
 
+
 class HC3Adapter (): RecyclerView.Adapter<HC3Adapter.MyViewHolder>() {
 
     lateinit var context: Context
     lateinit var cards: List<Card>
+    lateinit var listener: onOptionsSelectListener
+
+    interface onOptionsSelectListener{
+        public fun onRemindLaterSelected()
+        public fun onDismissNowSelected()
+    }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val iconIv : ImageView = itemView.findViewById(R.id.hc3_icon)
         val bigTv : TextView = itemView.findViewById(R.id.hc3_big_tv)
         val smallTv : TextView = itemView.findViewById(R.id.hc3_small_tv)
         val linearLayout: LinearLayout = itemView.findViewById(R.id.hc3_linear_layout)
+        val optionsLayout: LinearLayout = itemView.findViewById(R.id.hc3_options_layout)
+        val remindLater: LinearLayout = itemView.findViewById(R.id.hc3_remind_later_layout)
+        val dismissLayout: LinearLayout = itemView.findViewById(R.id.hc3_dismiss_layout)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -59,6 +68,24 @@ class HC3Adapter (): RecyclerView.Adapter<HC3Adapter.MyViewHolder>() {
                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(card.url))
                 context.startActivity(browserIntent)
             }
+        }
+
+        holder.itemView.setOnLongClickListener {
+            if(holder.optionsLayout.visibility == View.VISIBLE){
+                holder.optionsLayout.visibility = View.GONE
+            }
+            else
+                holder.optionsLayout.visibility = View.VISIBLE
+
+            return@setOnLongClickListener true
+        }
+
+        holder.dismissLayout.setOnClickListener {
+            listener.onDismissNowSelected()
+        }
+
+        holder.remindLater.setOnClickListener {
+            listener.onRemindLaterSelected()
         }
     }
 
